@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AboutModel, AlbumModel, ImageModel, StoryModel
+from .models import AboutModel, AlbumModel, ImageModel, StoryModel, VideoModel
 
 
 
@@ -25,8 +25,14 @@ class StoryAdmin(admin.ModelAdmin):
     list_display_link = ['id']
     list_editable = ['name', 'published']
 
+
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'published']
+    list_display_link = ['id']
+    list_editable = ['name', 'published']
 ###########################################
 admin.site.register(AboutModel, AboutAdmin)
 admin.site.register(AlbumModel, AlbumAdmin)
 admin.site.register(ImageModel, ImageAdmin)
 admin.site.register(StoryModel, StoryAdmin)
+admin.site.register(VideoModel, VideoAdmin)

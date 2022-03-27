@@ -1,7 +1,7 @@
 from rest_framework import generics, status, mixins, viewsets
 from rest_framework.response import Response
-from .serializer import AboutSerializer, AlbumSerializer, AlbumDetailSerializer, StorySerializer, StoryDetailSerializer
-from .models import AboutModel, AlbumModel, StoryModel
+from .serializer import AboutSerializer, AlbumSerializer, AlbumDetailSerializer, StorySerializer, StoryDetailSerializer, VideoDetailSerializer, VideoSerializer
+from .models import AboutModel, AlbumModel, StoryModel, VideoModel
 import datetime
 
 class AboutAPIView(generics.ListAPIView):
@@ -90,6 +90,41 @@ class StoryDetailAPIView(generics.RetrieveAPIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data='nothing found')
 
+
+class VideoAPIView(generics.ListAPIView):
+    serializer_class = VideoSerializer
+
+    def get_queryset(self):
+        qs = VideoModel.objects.filter(published=True)
+        return qs
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = self.get_queryset()
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data='nothing found')
+
+
+class VideoDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = VideoDetailSerializer
+
+    def get_object(self):
+        return self.kwargs.get('pk')
+
+    def get_queryset(self):
+        id = self.get_object()
+        qs = VideoModel.objects.filter(published=True).filter(id=id)
+        return qs
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = self.get_queryset()
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data='nothing found')
 '''
 class StudentDocxViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     def retrieve(self, request, *args, **kwargs):

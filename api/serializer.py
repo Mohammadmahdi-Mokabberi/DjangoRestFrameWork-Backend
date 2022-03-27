@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AboutModel, AlbumModel, StoryModel, ImageModel
+from .models import AboutModel, AlbumModel, StoryModel, ImageModel, VideoModel
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -28,11 +28,6 @@ class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlbumModel
         fields = ['id', 'name', 'thumbnail']
-    
-    def get_thumbnail(self, obj):
-        qs = obj.album_thumbnail.all()
-        serializer = ImageDetailSerializer(qs, many=True)
-        return serializer.data
 
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
@@ -60,3 +55,17 @@ class StoryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoryModel
         fields = ['name', 'image', 'story']
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    thumbnail = serializers.ImageField(source='video_thumbnail.image', read_only=True)
+    class Meta:
+        model = VideoModel
+        fields = ['id', 'name', 'thumbnail']
+
+
+class VideoDetailSerializer(serializers.ModelSerializer):
+    thumbnail = serializers.ImageField(source='video_thumbnail.image', read_only=True)
+    class Meta:
+        model = VideoModel
+        fields = ['name', 'thumbnail', 'video_describe', 'video', 'story']

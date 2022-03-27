@@ -54,7 +54,7 @@ class AboutModel(models.Model):
     last_name = models.CharField(max_length=100, verbose_name='نام خانوادگی')
     self_image = models.ForeignKey(ImageModel, related_name='self_image', null=True, on_delete=models.SET_NULL, blank=True, verbose_name='عکس')
     age = models.IntegerField(default=0, verbose_name='سن')
-    birthday = models.DateField(verbose_name='روز تولد')
+    birthday = models.CharField(max_length=4, verbose_name='روز تولد')
     degree = models.CharField(max_length=250, verbose_name='مدرک تحصیلی')
     trophy = models.TextField(verbose_name='افتخارات')
     self_describe = models.TextField(verbose_name='توضیحات')
@@ -68,10 +68,12 @@ class AboutModel(models.Model):
 
 
 class VideoModel(models.Model):
-    name = models.CharField(max_length=50)
-    video_describe = models.TextField(blank=True)
-    video = models.FileField(upload_to='videos')
-    stroy = models.TextField(blank=True)
+    name = models.CharField(max_length=50, verbose_name='اسم')
+    video_thumbnail = models.ForeignKey(ImageModel, blank=True, null=True, related_name='video_thumbnail', on_delete=models.SET_NULL, verbose_name='بنر')
+    video_describe = models.TextField(blank=True, verbose_name='توضیحات')
+    video = models.FileField(upload_to='videos', verbose_name='ویدیو')
+    story = models.TextField(blank=True, verbose_name='داستان')
+    published = models.BooleanField(default=False, verbose_name='منتشر شود؟')
 
     class Meta:
         verbose_name = 'ویدیو'

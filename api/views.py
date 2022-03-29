@@ -1,8 +1,11 @@
-from rest_framework import generics, status, mixins, viewsets
+from django.conf import settings
+from rest_framework import generics, status
 from rest_framework.response import Response
+from django.http import HttpResponse
 from .serializer import AboutSerializer, AlbumSerializer, AlbumDetailSerializer, StorySerializer, StoryDetailSerializer, VideoDetailSerializer, VideoSerializer
 from .models import AboutModel, AlbumModel, StoryModel, VideoModel
-import datetime
+from django.conf import settings
+
 
 class AboutAPIView(generics.ListAPIView):
     serializer_class = AboutSerializer
@@ -27,12 +30,12 @@ class AlbumAPIView(generics.ListAPIView):
         return qs
     
     def get(self, request, *args, **kwargs):
-        #try:
+        try:
             queryset = self.get_queryset()
             serializer = self.get_serializer(queryset, many=True)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
-        #except:
-        #    return Response(status=status.HTTP_400_BAD_REQUEST, data='nothing found')
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data='nothing found')
 
 
 class AlbumDetailAPIView(generics.RetrieveAPIView):
@@ -125,31 +128,3 @@ class VideoDetailAPIView(generics.RetrieveAPIView):
             return Response(status=status.HTTP_200_OK, data=serializer.data)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data='nothing found')
-'''
-class StudentDocxViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    def retrieve(self, request, *args, **kwargs):
-        template = webodt.ODFTemplate('test.odt')
-        queryset = Pupils.objects.get(id=kwargs['pk'])
-        serializer = StudentSerializer(queryset)
-        context = dict(serializer.data)
-        document = template.render(Context(context))
-        doc = converter().convert(document, format='doc')
-        p = u'docs/cards/%s/%s_%s.doc' % (datetime.now().date(), context[u'surname'], context[u'name'])
-        path = default_storage.save(p, doc)
-        return Response(u'/media/' + path)
-
-
-class VideoView(generics.ListAPIView):
-
-    def get(self, request, format=None):
-        serializer = cdx_compositesSerializer(snippets, many=True)
-        if format == 'raw':
-            video_file = open('/home/krishna/Downloads/test1.mp4', 'rb')
-            response = HttpResponse(FileWrapper(video_file), content_type=
-            'application/video', base_name='none')
-            response['Content-Disposition'] = 'attachment; filename="%s"' % 'test1.mp4'
-            return response
-
-        else:
-            return Response(serializer.data)
-'''

@@ -2,13 +2,6 @@ from rest_framework import serializers
 from .models import AboutModel, AlbumModel, StoryModel, ImageModel, VideoModel
 
 
-class ImageSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = ImageModel
-        fields = ['image']
-
-
 class ImageDetailSerializer(serializers.ModelSerializer):
 
     class Meta:

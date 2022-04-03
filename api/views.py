@@ -2,7 +2,6 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializer import AboutSerializer, AlbumSerializer, AlbumDetailSerializer, StorySerializer, StoryDetailSerializer, VideoDetailSerializer, VideoSerializer
 from .models import AboutModel, AlbumModel, StoryModel, VideoModel
-from django.conf import settings
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

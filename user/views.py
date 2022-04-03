@@ -1,10 +1,8 @@
-import email
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from .serializer import UserLoginSerializer, UserSerializer
+from .serializer import UserSerializer
 from django.contrib.auth.hashers import make_password
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 User = get_user_model()
 def get_key_error_from_serializer_errors(serializer_error):

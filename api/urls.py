@@ -8,5 +8,5 @@ urlpatterns = [
     path('story/<int:pk>/', StoryDetailAPIView.as_view()),
     path('video/', VideoAPIView.as_view()),
     path('video/<int:pk>/', VideoDetailAPIView.as_view()),
-    path('about/',AboutAPIView.as_view()),
+    path('about/', AboutAPIView.as_view()),
 ]
